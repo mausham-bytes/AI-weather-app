@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lynx-Weather App</title>
+    <title>LynxWeather - Text Wrap Fixed</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -41,6 +41,7 @@
             background: rgba(20, 15, 40, 0.95);
             border-left: 1px solid rgba(168, 85, 247, 0.4);
             transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
         }
         .sidebar .bg-gradient-to-b {
             background: linear-gradient(180deg, #581c87, #0891b2);
@@ -66,6 +67,10 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInMessage {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         @keyframes pulse {
             0% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
@@ -98,6 +103,168 @@
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
         }
+        
+        /* FIXED CHAT SCROLLBAR AND TEXT WRAPPING */
+        .chat-messages-container {
+            height: 350px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0.75rem;
+            scroll-behavior: smooth;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 0.5rem;
+            background: rgba(31, 41, 55, 0.3);
+            /* Ensure proper width calculation */
+            box-sizing: border-box;
+            width: 100%;
+        }
+        
+        /* Custom Scrollbar for Chat Messages */
+        .chat-messages-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .chat-messages-container::-webkit-scrollbar-track {
+            background: rgba(31, 41, 55, 0.8);
+            border-radius: 4px;
+        }
+        
+        .chat-messages-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #a855f7, #06b6d4);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-messages-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #9333ea, #0891b2);
+        }
+        
+        /* Firefox scrollbar */
+        .chat-messages-container {
+            scrollbar-width: thin;
+            scrollbar-color: #a855f7 rgba(31, 41, 55, 0.8);
+        }
+        
+        /* FIXED MESSAGE STYLES - PROPER TEXT WRAPPING */
+        .message-item {
+            animation: slideInMessage 0.3s ease-out;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease;
+            background: rgba(168, 85, 247, 0.05);
+            border-left: 3px solid transparent;
+            /* CRITICAL: Ensure text wraps properly */
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            /* Ensure container doesn't overflow */
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .message-item:hover {
+            background-color: rgba(168, 85, 247, 0.15);
+            border-left-color: #a855f7;
+        }
+        
+        .message-item.bot-message {
+            border-left-color: #a855f7;
+        }
+        
+        .message-item.user-message {
+            border-left-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.05);
+        }
+        
+        .message-item.user-message:hover {
+            background-color: rgba(6, 182, 212, 0.15);
+        }
+        
+        /* Message text content */
+        .message-text {
+            /* Ensure text content wraps properly */
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            display: block;
+        }
+        
+        .message-timestamp {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 0.25rem;
+            color: #9ca3af;
+            display: block;
+            text-align: right;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            animation: slideInMessage 0.3s ease-out;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 0.5rem;
+            border-left: 3px solid #a855f7;
+            margin-bottom: 0.75rem;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #a855f7;
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typingDot {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        .chat-input-container {
+            padding: 1rem;
+            border-top: 1px solid rgba(168, 85, 247, 0.3);
+            background: rgba(20, 15, 40, 0.9);
+        }
+        
+        .chat-input {
+            transition: all 0.3s ease;
+            resize: none;
+            min-height: 40px;
+            max-height: 120px;
+        }
+        
+        .chat-input:focus {
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5);
+            border-color: #a855f7;
+        }
+        
+        .send-button {
+            transition: all 0.3s ease;
+        }
+        
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
         .bg-gray-900\/80 {
             background: rgba(17, 55, 69);
             backdrop-filter: blur(10px);
@@ -189,6 +356,7 @@
             .text-4xl { font-size: 2rem; }
             .sidebar-toggle { width: 50px; height: 50px; font-size: 1.25rem; }
             .h-64 { height: 50vh; }
+            .chat-messages-container { height: 250px; }
         }
         @media (min-width: 768px) {
             .md\:max-w-sm { max-width: 24rem; }
@@ -240,7 +408,6 @@
                 
                 const loadLottie = async () => {
                     try {
-                        // Ensure lottie-player script is loaded
                         if (typeof customElements === 'undefined' || !customElements.get('lottie-player')) {
                             const script = document.createElement('script');
                             script.src = 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js';
@@ -249,7 +416,7 @@
                             await new Promise((resolve, reject) => {
                                 script.onload = resolve;
                                 script.onerror = reject;
-                                setTimeout(reject, 10000); // 10 second timeout
+                                setTimeout(reject, 10000);
                             });
                         }
 
@@ -301,6 +468,37 @@
             );
         };
 
+        // Enhanced Chat Message Component with proper text wrapping
+        const ChatMessage = React.memo(({ message, index }) => {
+            const formatTime = (timestamp) => {
+                return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            };
+
+            return React.createElement('div', {
+                className: `message-item ${message.isBot ? 'bot-message text-purple-300' : 'user-message text-cyan-300'}`
+            },
+                React.createElement('div', { className: 'message-text' },
+                    `${message.isBot ? '🤖' : '👤'} ${message.text}`
+                ),
+                React.createElement('div', {
+                    className: 'message-timestamp'
+                }, formatTime(message.timestamp))
+            );
+        });
+
+        // Enhanced Typing Indicator
+        const TypingIndicator = () => {
+            return React.createElement('div', { className: 'typing-indicator text-purple-300' },
+                React.createElement('span', null, '🤖'),
+                React.createElement('div', { className: 'typing-dots' },
+                    React.createElement('div', { className: 'typing-dot' }),
+                    React.createElement('div', { className: 'typing-dot' }),
+                    React.createElement('div', { className: 'typing-dot' })
+                ),
+                React.createElement('span', null, 'Typing...')
+            );
+        };
+
         function renderApp() {
             if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
                 console.error('React or ReactDOM not loaded');
@@ -309,7 +507,6 @@
             }
 
             const weatherApiKey = '786496a76003ab0f577f806b3ebe1675';
-            const geminiApiKey = 'AIzaSyBqYeBHtF860ZEkCLQBcdSAOBbuXmka_kg';
 
             const weatherEmojis = {
                 'Clear': '☀️', 'Clouds': '☁️', 'Rain': '🌧️', 'Drizzle': '🌦️',
@@ -363,16 +560,87 @@
                 description: 'Bright and warm, perfect for outdoor fun!'
             });
 
+            // Debounce hook for performance
+            const useDebounce = (value, delay) => {
+                const [debouncedValue, setDebouncedValue] = React.useState(value);
+
+                React.useEffect(() => {
+                    const handler = setTimeout(() => {
+                        setDebouncedValue(value);
+                    }, delay);
+
+                    return () => {
+                        clearTimeout(handler);
+                    };
+                }, [value, delay]);
+
+                return debouncedValue;
+            };
+
             const LynxWeather = () => {
                 const [weather, setWeather] = React.useState(null);
                 const [error, setError] = React.useState('');
                 const [theme, setTheme] = React.useState(localStorage.getItem('theme') || 'Real');
                 const [chatInput, setChatInput] = React.useState('');
-                const [chatMessages, setChatMessages] = React.useState([{ text: 'Welcome to LynxWeather! Ask about the weather or activities! 😎', isBot: true }]);
+                const [chatMessages, setChatMessages] = React.useState([
+                    { 
+                        text: 'Welcome to LynxWeather! Ask about the weather or activities! 😎', 
+                        isBot: true, 
+                        timestamp: Date.now() 
+                    },
+                    { 
+                        text: 'This is a demo message to show that text wraps properly within the chat container. Even very long messages should display correctly without being cut off at the edges.', 
+                        isBot: true, 
+                        timestamp: Date.now() - 60000 
+                    },
+                    { 
+                        text: 'Hello! How can I help you today?', 
+                        isBot: false, 
+                        timestamp: Date.now() - 120000 
+                    },
+                    { 
+                        text: 'I can help you with weather information, outfit suggestions, and activity recommendations based on current conditions. The text should wrap nicely and be fully readable.', 
+                        isBot: true, 
+                        timestamp: Date.now() - 180000 
+                    },
+                    { 
+                        text: 'What should I wear today?', 
+                        isBot: false, 
+                        timestamp: Date.now() - 240000 
+                    },
+                    { 
+                        text: 'Based on current weather conditions, I recommend checking the temperature first. Let me get that information for you! This message is intentionally longer to test text wrapping functionality.', 
+                        isBot: true, 
+                        timestamp: Date.now() - 300000 
+                    },
+                    { 
+                        text: 'Can you tell me about outdoor activities?', 
+                        isBot: false, 
+                        timestamp: Date.now() - 360000 
+                    },
+                    { 
+                        text: 'Absolutely! I can suggest great outdoor activities based on the current weather. The scrollbar should be visible now with all these messages, and all text should be properly wrapped and readable!', 
+                        isBot: true, 
+                        timestamp: Date.now() - 420000 
+                    }
+                ]);
                 const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
                 const [isTyping, setIsTyping] = React.useState(false);
                 const [savedOutfit, setSavedOutfit] = React.useState(localStorage.getItem('savedOutfit') || '');
+                
+                // Chat enhancement refs and states
+                const chatMessagesRef = React.useRef(null);
+                const chatInputRef = React.useRef(null);
+                const debouncedChatInput = useDebounce(chatInput, 300);
 
+                // Auto-scroll to bottom when new messages are added
+                React.useEffect(() => {
+                    if (chatMessagesRef.current) {
+                        chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+                    }
+                }, [chatMessages, isTyping]);
+
+                // Particle animation effect
                 React.useEffect(() => {
                     const canvas = document.createElement('canvas');
                     canvas.className = 'particle-bg';
@@ -410,6 +678,7 @@
                     return () => canvas.remove();
                 }, []);
 
+                // Weather fetching effect
                 React.useEffect(() => {
                     const fetchWeather = async () => {
                         try {
@@ -448,59 +717,94 @@
                     fetchWeather();
                 }, []);
 
-                const handleChatSubmit = async (e) => {
+                // Enhanced chat submit with better performance
+                const handleChatSubmit = React.useCallback(async (e) => {
                     e.preventDefault();
                     if (!chatInput.trim()) return;
+                    
                     const userMessage = chatInput.trim();
                     setChatInput('');
-                    setChatMessages(prev => [...prev, { text: userMessage, isBot: false }]);
+                    
+                    // Add user message immediately
+                    setChatMessages(prev => [...prev, { 
+                        text: userMessage, 
+                        isBot: false, 
+                        timestamp: Date.now() 
+                    }]);
+                    
                     setIsTyping(true);
+                    
                     try {
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        // Simulate more realistic typing delay
+                        await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 1200));
+                        
                         let botResponse = '';
-                        if (userMessage.toLowerCase().includes('weather')) {
+                        const lowerMessage = userMessage.toLowerCase();
+                        
+                        if (lowerMessage.includes('weather')) {
                             botResponse = weather ? 
                                 `Current weather: ${weather.weather[0].description}, ${Math.round(weather.main.temp)}°C in ${weather.name}. ${getActivitySuggestion(weather.main.temp, weather.weather[0].main)}` :
                                 'Weather data is not available right now. Please try again later.';
-                        } else if (userMessage.toLowerCase().includes('outfit') || userMessage.toLowerCase().includes('clothes')) {
+                        } else if (lowerMessage.includes('outfit') || lowerMessage.includes('clothes')) {
                             botResponse = weather ? 
                                 `For today's weather (${Math.round(weather.main.temp)}°C, ${weather.weather[0].main}), I suggest: ${getClothingSuggestion(weather.main.temp, weather.weather[0].main)}` :
                                 'I need weather data to suggest an outfit. Please allow location access.';
-                        } else if (userMessage.toLowerCase().includes('activity') || userMessage.toLowerCase().includes('do')) {
+                        } else if (lowerMessage.includes('activity') || lowerMessage.includes('do')) {
                             botResponse = weather ? 
                                 getActivitySuggestion(weather.main.temp, weather.weather[0].main) :
                                 'I need weather data to suggest activities. Please allow location access.';
-                        } else if (userMessage.toLowerCase().includes('memory') || userMessage.toLowerCase().includes('history')) {
+                        } else if (lowerMessage.includes('memory') || lowerMessage.includes('history')) {
                             const memories = mockWeatherMemory();
                             botResponse = `Here are some recent weather memories: ${memories.map(m => `${m.date}: ${m.temp}°C, ${m.description}`).join('; ')}`;
-                        } else if (userMessage.toLowerCase().includes('time travel') || userMessage.toLowerCase().includes('past')) {
+                        } else if (lowerMessage.includes('time travel') || lowerMessage.includes('past')) {
                             const pastWeather = mockGeoTimeWeather();
                             botResponse = `Time travel weather for ${pastWeather.date}: ${pastWeather.temp}°C, ${pastWeather.description}`;
                         } else {
                             botResponse = "I'm here to help with weather, outfit suggestions, and activity recommendations! Try asking about the weather, what to wear, or what to do today.";
                         }
-                        setChatMessages(prev => [...prev, { text: botResponse, isBot: true }]);
+                        
+                        setChatMessages(prev => [...prev, { 
+                            text: botResponse, 
+                            isBot: true, 
+                            timestamp: Date.now() 
+                        }]);
                     } catch (err) {
                         console.error('Chat error:', err);
-                        setChatMessages(prev => [...prev, { text: 'Sorry, I encountered an error. Please try again.', isBot: true }]);
+                        setChatMessages(prev => [...prev, { 
+                            text: 'Sorry, I encountered an error. Please try again.', 
+                            isBot: true, 
+                            timestamp: Date.now() 
+                        }]);
                     } finally {
                         setIsTyping(false);
                     }
-                };
+                }, [chatInput, weather]);
 
-                const saveOutfit = () => {
+                // Handle keyboard shortcuts
+                const handleKeyDown = React.useCallback((e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleChatSubmit(e);
+                    }
+                }, [handleChatSubmit]);
+
+                const saveOutfit = React.useCallback(() => {
                     if (weather) {
                         const outfit = getClothingSuggestion(weather.main.temp, weather.weather[0].main);
                         setSavedOutfit(outfit);
                         localStorage.setItem('savedOutfit', outfit);
-                        setChatMessages(prev => [...prev, { text: `Outfit saved: ${outfit}`, isBot: true }]);
+                        setChatMessages(prev => [...prev, { 
+                            text: `Outfit saved: ${outfit}`, 
+                            isBot: true, 
+                            timestamp: Date.now() 
+                        }]);
                     }
-                };
+                }, [weather]);
 
-                const changeTheme = (newTheme) => {
+                const changeTheme = React.useCallback((newTheme) => {
                     setTheme(newTheme);
                     localStorage.setItem('theme', newTheme);
-                };
+                }, []);
 
                 return React.createElement('div', { className: 'min-h-screen flex flex-col items-center justify-center p-4' },
                     React.createElement('div', { className: `weather-card max-w-md w-full fade-in ${fantasyThemes[theme].bg}` },
@@ -567,30 +871,37 @@
                                     className: 'absolute top-4 right-4 text-gray-300 hover:text-white'
                                 }, '✕')
                             ),
-                            React.createElement('div', { className: 'flex-1 overflow-y-auto p-4 space-y-2' },
-                                chatMessages.map((msg, idx) =>
-                                    React.createElement('div', {
-                                        key: idx,
-                                        className: `message ${msg.isBot ? 'text-purple-300' : 'text-cyan-300'}`
-                                    }, `${msg.isBot ? '🤖' : '👤'} ${msg.text}`)
-                                ),
-                                isTyping && React.createElement('div', { className: 'text-purple-300' }, '🤖 Typing...')
-                            ),
-                            React.createElement('form', {
-                                onSubmit: handleChatSubmit,
-                                className: 'p-4 border-t border-purple-500-50'
+                            React.createElement('div', { 
+                                ref: chatMessagesRef,
+                                className: 'chat-messages-container flex-1'
                             },
-                                React.createElement('input', {
-                                    type: 'text',
-                                    value: chatInput,
-                                    onChange: (e) => setChatInput(e.target.value),
-                                    placeholder: 'Ask about weather...',
-                                    className: 'w-full p-2 rounded-lg bg-gray-800 text-white border border-purple-500-50 focus:outline-none focus:ring-2 focus:ring-purple-500'
-                                }),
-                                React.createElement('button', {
-                                    type: 'submit',
-                                    className: 'w-full mt-2 pulse text-white py-2 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500'
-                                }, 'Send')
+                                chatMessages.map((msg, idx) =>
+                                    React.createElement(ChatMessage, {
+                                        key: `${idx}-${msg.timestamp}`,
+                                        message: msg,
+                                        index: idx
+                                    })
+                                ),
+                                isTyping && React.createElement(TypingIndicator, { key: 'typing' })
+                            ),
+                            React.createElement('div', { className: 'chat-input-container' },
+                                React.createElement('form', { onSubmit: handleChatSubmit },
+                                    React.createElement('textarea', {
+                                        ref: chatInputRef,
+                                        value: chatInput,
+                                        onChange: (e) => setChatInput(e.target.value),
+                                        onKeyDown: handleKeyDown,
+                                        placeholder: 'Ask about weather... (Enter to send, Shift+Enter for new line)',
+                                        className: 'chat-input w-full p-2 rounded-lg bg-gray-800 text-white border border-purple-500-50 focus:outline-none focus:ring-2 focus:ring-purple-500',
+                                        rows: 1,
+                                        disabled: isTyping
+                                    }),
+                                    React.createElement('button', {
+                                        type: 'submit',
+                                        disabled: !chatInput.trim() || isTyping,
+                                        className: 'send-button w-full mt-2 pulse text-white py-2 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500'
+                                    }, isTyping ? 'Sending...' : 'Send')
+                                )
                             )
                         )
                     )
