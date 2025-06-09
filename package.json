@@ -1,0 +1,27 @@
+{
+  "name": "aiwallahproject",
+  "version": "1.0.0",
+  "description": "A beautifully designed, AI-powered weather forecasting web app built using React, Vite, and Tailwind CSS. It delivers accurate weather data with an intelligent, user-centric interface. This app goes beyond typical weather tools by integrating innovative features that enhance usability, accessibility, and personalization.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mausham-bytes/AI-weather-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mausham-bytes/AI-weather-app/issues"
+  },
+  "homepage": "https://github.com/mausham-bytes/AI-weather-app#readme",
+  "dependencies": {
+    "vite": "^6.3.5"
+  }
+}
